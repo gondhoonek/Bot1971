@@ -21,7 +21,7 @@
     "secure": true,
     "httpOnly": true,
     "sameSite": "no_restriction",
-    "expirationDate": 1797495866.156906,
+    "expirationDate": 1797503879.936438,
     "storeId": "0",
     "session": false
   },
@@ -86,7 +86,7 @@
     "secure": true,
     "httpOnly": true,
     "sameSite": "lax",
-    "expirationDate": 1797495862.326162,
+    "expirationDate": 1797503875.142321,
     "storeId": "0",
     "session": false
   },
@@ -157,14 +157,14 @@
   },
   {
     "name": "fr",
-    "value": "0puPbDo2BItJMAoEG.AWfp6o5PCSneMkbBYSDtXdZN-xcfpiTJdvyg5iO3zhGKOTC43w0.Bov086..AAA.0.0.BpFEQ2.AWcbGZZ3h25vsDE_keXJ2eoG7ds",
+    "value": "0puPbDo2BItJMAoEG.AWeQZ7jSHoYXov2rmt1GqJch_PoX-fXXQiJouwt-hnnuCZNjHcE.Bov086..AAA.0.0.BpFGOC.AWdSi0ELUZXJWu8NwfQnrrIkyIU",
     "domain": ".facebook.com",
     "path": "/",
     "hostOnly": false,
     "secure": true,
     "httpOnly": true,
     "sameSite": "no_restriction",
-    "expirationDate": 1770711862.32576,
+    "expirationDate": 1770719875.142143,
     "storeId": "0",
     "session": false
   }
