@@ -1,116 +1,93 @@
 const fs = require("fs");
-const path = __dirname + "/linkKickData.json";
+const botID = global.GoatBot?.botID || "";
 
-// ডাটা ফাইল না থাকলে তৈরি করো
-if (!fs.existsSync(path)) {
-    fs.writeFileSync(path, JSON.stringify({ allowedGroups: [], allowedUsers: [] }, null, 4));
+// ডাটা ফাইল
+const dataPath = __dirname + "/linkAutoKick.json";
+
+// ডাটা ফাইল না থাকলে তৈরি
+if (!fs.existsSync(dataPath)) {
+    fs.writeFileSync(dataPath, JSON.stringify({
+        enabledGroups: []   // যেসব গ্রুপে সিস্টেম চালু থাকবে
+    }, null, 4));
 }
 
 module.exports = {
     config: {
-        name: "linkkick",
+        name: "linkautokick",
         version: "2.0",
         author: "SaGor",
         role: 1,
-        shortDescription: "নির্দিষ্ট আইডি ছাড়া কেউ লিংক দিতে পারবে না",
-        longDescription: "Allowlist ছাড়া কেউ লিংক দিলে রিমুভ করবে",
-        category: "group",
-        guide: "{pn} on/off\n{pn} add <uid>\n{pn} remove <uid>"
-    },
-
-    // ON / OFF + ADD / REMOVE COMMAND
-    onStart: async function ({ message, event, args }) {
-        const data = JSON.parse(fs.readFileSync(path));
-        const cmd = args[0];
-
-        if (!cmd) {
-            return message.reply(
-`Usage:
-linkkick on/off
-linkkick add <uid>
-linkkick remove <uid>`);
-        }
-
-        // ON
-        if (cmd === "on") {
-            if (!data.allowedGroups.includes(event.threadID)) {
-                data.allowedGroups.push(event.threadID);
-                fs.writeFileSync(path, JSON.stringify(data, null, 4));
-            }
-            return message.reply("✅ লিংক প্রটেকশন চালু\n(শুধুমাত্র allowlist আইডি লিংক দিতে পারবে)");
-        }
-
-        // OFF
-        if (cmd === "off") {
-            data.allowedGroups = data.allowedGroups.filter(id => id !== event.threadID);
-            fs.writeFileSync(path, JSON.stringify(data, null, 4));
-            return message.reply("❌ লিংক প্রটেকশন বন্ধ");
-        }
-
-        // ADD user ID
-        if (cmd === "add") {
-            const uid = args[1];
-            if (!uid) return message.reply("⚠️ একটি UID দিন।");
-
-            if (!data.allowedUsers.includes(uid)) {
-                data.allowedUsers.push(uid);
-                fs.writeFileSync(path, JSON.stringify(data, null, 4));
-            }
-            return message.reply(`✅ UID ${uid} allowList-এ যোগ করা হলো`);
-        }
-
-        // REMOVE user ID
-        if (cmd === "remove") {
-            const uid = args[1];
-            if (!uid) return message.reply("⚠️ একটি UID দিন।");
-
-            data.allowedUsers = data.allowedUsers.filter(id => id !== uid);
-            fs.writeFileSync(path, JSON.stringify(data, null, 4));
-            return message.reply(`❌ UID ${uid} allowList থেকে সরানো হলো`);
+        shortDescription: "গ্রুপে লিংক দিলে রিমুভ (ON/OFF)",
+        longDescription: "নির্দিষ্ট গ্রুপে লিংক দিলে নোটিশ ও রিমুভ, সাথে চালু/বন্ধ করার অপশন।",
+        category: "SECURITY",
+        guide: {
+            bn: "{pn} on\n{pn} off"
         }
     },
 
-    // চ্যাট মনিটর
+    // অ্যাডমিন কমান্ড (চালু/বন্ধ)
+    onStart: async function ({ api, event, args }) {
+        const threadID = event.threadID;
+
+        const data = JSON.parse(fs.readFileSync(dataPath));
+
+        // চালু
+        if (args[0] === "on") {
+            if (!data.enabledGroups.includes(threadID)) {
+                data.enabledGroups.push(threadID);
+                fs.writeFileSync(dataPath, JSON.stringify(data, null, 4));
+                return api.sendMessage("✅ লিংক অটো কিক এখন এই গ্রুপে **চালু** করা হলো।", threadID);
+            } else {
+                return api.sendMessage("ℹ️ এই গ্রুপে ইতোমধ্যে চালু আছে।", threadID);
+            }
+        }
+
+        // বন্ধ
+        if (args[0] === "off") {
+            if (data.enabledGroups.includes(threadID)) {
+                data.enabledGroups = data.enabledGroups.filter(id => id != threadID);
+                fs.writeFileSync(dataPath, JSON.stringify(data, null, 4));
+                return api.sendMessage("❌ লিংক অটো কিক এখন এই গ্রুপে **বন্ধ** করা হলো।", threadID);
+            } else {
+                return api.sendMessage("ℹ️ এই গ্রুপে এটি চালু ছিল না।", threadID);
+            }
+        }
+
+        return api.sendMessage("⚙️ ব্যবহার:\n• linkautokick on\n• linkautokick off", threadID);
+    },
+
+    // মেসেজ মনিটর + লিংক ধরলে রিমুভ
     onChat: async function ({ api, event }) {
-        const data = JSON.parse(fs.readFileSync(path));
-
-        // গ্রুপ on না থাকলে কাজ করবে না
-        if (!data.allowedGroups.includes(event.threadID)) return;
-
-        const msg = event.body?.toLowerCase() || "";
-        if (!msg) return;
-
-        const threadInfo = await api.getThreadInfo(event.threadID);
-        const botID = api.getCurrentUserID();
-        const sender = event.senderID;
-
-        // বট এডমিন না হলে কিছু করবে না
-        if (!threadInfo.adminIDs.some(ad => ad.id == botID)) return;
-
-        // লিংক ধরার রেগেক্স
-        const linkRegex = /(https?:\/\/[^\s]+|www\.[^\s]+|\b[a-z0-9\-]+\.(com|net|org|info|xyz|co|io)\b)/gi;
-        if (!linkRegex.test(msg)) return;
-
-        // ❗ allowed users skip
-        if (data.allowedUsers.includes(sender)) return;
-
-        // ❗ বট skip
-        if (sender == botID) return;
-
-        // নোটিশ
-        const notice =
-`⚠️ সতর্কবার্তা!
-
-এই গ্রুপে শুধুমাত্র নির্দিষ্ট UID-রা লিংক দিতে পারবে।
-আপনি allowList-এ নেই, তাই আপনাকে রিমুভ করা হচ্ছে।`;
-
-        await api.sendMessage(notice, event.threadID);
-
-        // রিমুভ
         try {
-            await api.removeUserFromGroup(sender, event.threadID);
-        } catch (err) {
-            await api.sendMessage("❌ রিমুভ করতে পারলাম না, আমাকে এডমিন দিন।", event.threadID);
+            const { senderID, threadID, messageID, body } = event;
+
+            // ডাটা লোড
+            const data = JSON.parse(fs.readFileSync(dataPath));
+
+            // এই গ্রুপে অটো কিক চালু না থাকলে কিছু করবে না
+            if (!data.enabledGroups.includes(threadID)) return;
+
+            // বট নিজে হলে স্কিপ
+            if (senderID == botID) return;
+
+            // লিংক ডিটেকশন
+            const linkRegex = /(https?:\/\/[^\s]+)/gi;
+            if (!linkRegex.test(body)) return;
+
+            // নোটিশ
+            const warning =
+`⚠️ গ্রুপ সিকিউরিটি সতর্কতা!
+
+❌ এই গ্রুপে লিংক দেওয়া নিষিদ্ধ।
+➡️ আপনি নিয়ম ভঙ্গ করেছেন, তাই আপনাকে গ্রুপ থেকে রিমুভ করা হচ্ছে।`;
+
+            await api.sendMessage(warning, threadID, messageID);
+
+            // রিমুভ
+            return api.removeUserFromGroup(senderID, threadID);
+
+        } catch (e) {
+            console.error(e);
         }
     }
 };
