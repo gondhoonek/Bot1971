@@ -9,26 +9,27 @@ if (!fs.existsSync(path)) {
 module.exports = {
     config: {
         name: "linkkick",
-        version: "1.2",
+        version: "1.0",
         author: "SaGor",
         role: 1,
         shortDescription: "গ্রুপে লিংক দিলে রিমুভ করবে",
-        longDescription: "এডমিন ছাড়া কেউ লিংক দিলে সতর্কবার্তা দিয়ে রিমুভ করবে।",
+        longDescription: "নির্দিষ্ট গ্রুপে কেউ লিংক দিলে সতর্কবার্তা দেখিয়ে গ্রুপ থেকে রিমুভ করবে",
         category: "group",
-        guide: "{pn} on/off"
+        guide: "{pn} on/off - এই গ্রুপে লিংক প্রটেকশন চালু/বন্ধ করবে"
     },
 
+    // কমান্ড দিয়ে এডমিন অনুমতি
     onStart: async function ({ message, event, args }) {
         const data = JSON.parse(fs.readFileSync(path));
 
-        if (!args[0]) return message.reply("Usage:\n{pn} on/off");
+        if (!args[0]) return message.reply("Usage:\nlinkkick on/off");
 
         if (args[0] === "on") {
             if (!data.allowedGroups.includes(event.threadID)) {
                 data.allowedGroups.push(event.threadID);
                 fs.writeFileSync(path, JSON.stringify(data, null, 4));
             }
-            return message.reply("✔ লিংক প্রটেকশন চালু হলো — এখন শুধু এডমিনরা লিংক দিতে পারবে।");
+            return message.reply(" এবার দেখবো কে লিংক দেয়");
         }
 
         if (args[0] === "off") {
@@ -38,43 +39,38 @@ module.exports = {
         }
     },
 
+    // চ্যাট মনিটর
     onChat: async function ({ api, event }) {
         const data = JSON.parse(fs.readFileSync(path));
 
-        // অনুমোদিত গ্রুপ না হলে কিছুই করবে না
+        // অনুমোদিত গ্রুপে কাজ করবে
         if (!data.allowedGroups.includes(event.threadID)) return;
 
+        // বট এডমিন না হলে কাজ করবে না
         const threadInfo = await api.getThreadInfo(event.threadID);
+        if (!threadInfo.adminIDs.some(a => a.id == api.getCurrentUserID())) return;
 
-        // গ্রুপ এডমিন লিস্ট
-        const adminList = threadInfo.adminIDs.map(a => a.id);
+        const msg = event.body?.toLowerCase() || "";
 
-        const sender = event.senderID;
+        // লিংক চেক
+        if (msg.includes("http://") || msg.includes("https://") || msg.includes("www.")) {
 
-        // যদি সেন্ডার গ্রুপ এডমিন হয় → লিংক দিলে কিছুই হবে না
-        if (adminList.includes(sender)) return;
-
-        // যদি সেন্ডার বট নিজে হয় → স্কিপ
-        if (sender == api.getCurrentUserID()) return;
-
-        const msg = (event.body || "").toLowerCase();
-
-        // লিংক শনাক্ত
-        const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|facebook\.com|t\.me|telegram|whatsapp|chat\.whatsapp\.com)/;
-
-        if (linkPattern.test(msg)) {
             const notice = 
-`⚠️ সতর্কবার্তা!
- গ্রুপে কোন প্রকার লিংক দেওয়া যাবে না।
+`⚠️ সতর্কবার্তা! ⚠️
 
-➡️ তাই নিয়ম ভঙ্গ করার জন্য আপনাকে গ্রুপ থেকে রিমুভ করা হচ্ছে।`;
+আপনি এই গ্রুপে লিংক শেয়ার করেছেন, যা গ্রুপের নিয়মের সম্পূর্ণ বিরোধী।  
+গ্রুপকে নিরাপদ রাখার জন্য, এই ধরনের লিংক শেয়ার করা সম্পূর্ণ নিষিদ্ধ।  
+
+➡️ তাই আপনাকে গ্রুপ থেকে রিমুভ করা হচ্ছে।  
+অনুগ্রহ করে ভবিষ্যতে নিয়ম মেনে চলুন।`;
 
             await api.sendMessage(notice, event.threadID);
 
+            // রিমুভ
             try {
-                await api.removeUserFromGroup(sender, event.threadID);
-            } catch (err) {
-                api.sendMessage("❌ আমাকে এডমিন দিলে তবেই সদস্যকে রিমুভ করতে পারবো।", event.threadID);
+                await api.removeUserFromGroup(event.senderID, event.threadID);
+            } catch (e) {
+                await api.sendMessage("❌ আমাকে এডমিন বানাও। না হলে রিমুভ করতে পারব না।", event.threadID);
             }
         }
     }
