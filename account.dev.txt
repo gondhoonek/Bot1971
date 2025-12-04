@@ -21,7 +21,7 @@
     "secure": true,
     "httpOnly": true,
     "sameSite": "no_restriction",
-    "expirationDate": 1799429080.48062,
+    "expirationDate": 1799439612.029478,
     "storeId": "0",
     "session": false
   },
@@ -73,7 +73,7 @@
     "secure": true,
     "httpOnly": false,
     "sameSite": "lax",
-    "expirationDate": 1770053087,
+    "expirationDate": 1770063611,
     "storeId": "0",
     "session": false
   },
@@ -99,7 +99,7 @@
     "secure": true,
     "httpOnly": true,
     "sameSite": "lax",
-    "expirationDate": 1799429080.926369,
+    "expirationDate": 1799439609.294565,
     "storeId": "0",
     "session": false
   },
@@ -130,30 +130,6 @@
     "session": false
   },
   {
-    "name": "m_pixel_ratio",
-    "value": "2.4740447998046875",
-    "domain": ".facebook.com",
-    "path": "/",
-    "hostOnly": false,
-    "secure": true,
-    "httpOnly": false,
-    "sameSite": "unspecified",
-    "storeId": "0",
-    "session": true
-  },
-  {
-    "name": "wd",
-    "value": "393x895",
-    "domain": ".facebook.com",
-    "path": "/",
-    "hostOnly": false,
-    "secure": true,
-    "httpOnly": false,
-    "sameSite": "unspecified",
-    "storeId": "0",
-    "session": true
-  },
-  {
     "name": "fr",
     "value": "0puPbDo2BItJMAoEG.AWc9OfZg2zFjw7N38wGLlB4zG4InRY6EDMtMABTO2kxyHazmiYU.Bov086..AAA.0.0.BpMcPY.AWed14RysGZMkiLoM7Dp09b7gVg",
     "domain": ".facebook.com",
@@ -168,27 +144,27 @@
   },
   {
     "name": "fbl_st",
-    "value": "101723211%3BT%3A29414484",
+    "value": "101716383%3BT%3A29414660",
     "domain": ".facebook.com",
     "path": "/",
     "hostOnly": false,
     "secure": true,
     "httpOnly": false,
     "sameSite": "strict",
-    "expirationDate": 1796405087,
+    "expirationDate": 1796415611,
     "storeId": "0",
     "session": false
   },
   {
     "name": "wl_cbv",
-    "value": "v2%3Bclient_version%3A3006%3Btimestamp%3A1764869080",
+    "value": "v2%3Bclient_version%3A3007%3Btimestamp%3A1764879609",
     "domain": ".facebook.com",
     "path": "/",
     "hostOnly": false,
     "secure": true,
     "httpOnly": false,
     "sameSite": "no_restriction",
-    "expirationDate": 1772645087,
+    "expirationDate": 1772655615,
     "storeId": "0",
     "session": false
   }
