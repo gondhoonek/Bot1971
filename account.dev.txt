@@ -78,19 +78,6 @@
     "session": false
   },
   {
-    "name": "locale",
-    "value": "en_GB",
-    "domain": ".facebook.com",
-    "path": "/",
-    "hostOnly": false,
-    "secure": true,
-    "httpOnly": false,
-    "sameSite": "no_restriction",
-    "expirationDate": 1764880526.725033,
-    "storeId": "0",
-    "session": false
-  },
-  {
     "name": "pas",
     "value": "61570429152532%3AjlWCvs1JyA%2C61572675629303%3Ajo0dU72aU3%2C61573023162119%3AjOEOvGVr10%2C61581897756061%3AXmjgZbR286%2C61578029591792%3ANOhMhdGZJ3%2C61577962220692%3AKMj6r2Y4L7%2C61582955276553%3AH0NKvewTOP%2C61582839632136%3AobhI51PHeV%2C61573544131508%3Ac8qHrleUXc%2C61584518483097%3AUBhu7hDrEK",
     "domain": ".facebook.com",
