@@ -78,19 +78,6 @@
     "session": false
   },
   {
-    "name": "dpr",
-    "value": "2.720080852508545",
-    "domain": ".facebook.com",
-    "path": "/",
-    "hostOnly": false,
-    "secure": true,
-    "httpOnly": false,
-    "sameSite": "no_restriction",
-    "expirationDate": 1765889257,
-    "storeId": "0",
-    "session": false
-  },
-  {
     "name": "c_user",
     "value": "61585196938838",
     "domain": ".facebook.com",
@@ -141,30 +128,6 @@
     "expirationDate": 1800414717.037684,
     "storeId": "0",
     "session": false
-  },
-  {
-    "name": "m_pixel_ratio",
-    "value": "2.4740447998046875",
-    "domain": ".facebook.com",
-    "path": "/",
-    "hostOnly": false,
-    "secure": true,
-    "httpOnly": false,
-    "sameSite": "unspecified",
-    "storeId": "0",
-    "session": true
-  },
-  {
-    "name": "wd",
-    "value": "393x895",
-    "domain": ".facebook.com",
-    "path": "/",
-    "hostOnly": false,
-    "secure": true,
-    "httpOnly": false,
-    "sameSite": "unspecified",
-    "storeId": "0",
-    "session": true
   },
   {
     "name": "fr",
