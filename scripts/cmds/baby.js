@@ -42,11 +42,11 @@ module.exports = {
     try {
       if (!query) {
         await sendTyping();
-        const ran = ["Bolo baby 💖", "Hea baby 😚"];
+        const ran = ["ওয়ালাইকুম আসসালাম", "Walaikum Assalam"];
         const r = ran[Math.floor(Math.random() * ran.length)];
         return message.reply(r, (err, info) => {
           if (!err) {
-            global.GoatBot.onReply.set(info.messageID, { commandName: "baby", author: senderID });
+            global.GoatBot.onReply.set(info.messageID, { commandName: " Assalamu Alaikum", author: senderID });
           }
         });
       }
@@ -76,15 +76,15 @@ module.exports = {
       const responses = Array.isArray(res.data.response) ? res.data.response : [res.data.response];
       if (!responses || responses.length === 0) {
         console.log(`🤖 Auto-teaching new phrase: "${query}"`);
-        await axios.get(`${simsim}/teach?ask=${encodeURIComponent(query)}&ans=${encodeURIComponent("hmm baby 😚 (auto learned)")}&senderName=${encodeURIComponent(senderName)}`);
-        return message.reply("hmm baby 😚");
+        await axios.get(`${simsim}/teach?ask=${encodeURIComponent(query)}&ans=${encodeURIComponent("ওয়ালাইকুম আসসালাম (auto learned)")}&senderName=${encodeURIComponent(senderName)}`);
+        return message.reply("Walaikum Assalam");
       }
 
       for (const reply of responses) {
         await new Promise((resolve) => {
           message.reply(reply, (err, info) => {
             if (!err) {
-              global.GoatBot.onReply.set(info.messageID, { commandName: "baby", author: senderID });
+              global.GoatBot.onReply.set(info.messageID, { commandName: "আসসালামু আলাইকুম", author: senderID });
             }
             resolve();
           });
@@ -126,15 +126,15 @@ module.exports = {
       // যদি SimSimi কিছু না পায়, auto-teach করে
       if (!responses || responses.length === 0) {
         console.log(`🧠 Auto-teaching new reply: "${replyText}"`);
-        await axios.get(`${simsim}/teach?ask=${encodeURIComponent(replyText)}&ans=${encodeURIComponent("hmm baby 😚 (auto learned)")}&senderName=${encodeURIComponent(senderName)}`);
-        return message.reply("hmm baby 😚");
+        await axios.get(`${simsim}/teach?ask=${encodeURIComponent(replyText)}&ans=${encodeURIComponent("ওয়ালাইকুম আসসালাম (auto learned)")}&senderName=${encodeURIComponent(senderName)}`);
+        return message.reply("Walaikum Assalam");
       }
 
       for (const reply of responses) {
         await new Promise((resolve) => {
           message.reply(reply, (err, info) => {
             if (!err) {
-              global.GoatBot.onReply.set(info.messageID, { commandName: "baby", author: event.senderID });
+              global.GoatBot.onReply.set(info.messageID, { commandName: "Assalamu Alaikum", author: event.senderID });
             }
             resolve();
           });
@@ -169,18 +169,18 @@ module.exports = {
     };
 
     try {
-      const simpleTriggers = ["baby", "bot", "bby", "বেবি", "বট", "oi", "oii", "jan"];
+      const simpleTriggers = ["Assalamu", " Assalamu Alaikum", " আসসালামু আলাইকুম ", "সালাম"];
       if (simpleTriggers.includes(raw)) {
         await sendTyping();
-        const replies = ["ডাকো কেন 🥺 প্রেম করবা নাকি 😞", "বুকাচুদা আর কত বট বট করবি 🐸", "ওই জান কাছে আসো 🫦👅", "আলাবু বলো সোনা 🤧", "আকাশ কে দেখছো? 🥺 তাকে কোথাও খুজে পাচ্ছি না 😩", "তুমার নুনুতে উম্মাহ 🥺🤌", "হ্যাঁ গো জান বলো 🙂", "ডাকিস না, তুই পচা 😼"];
+        const replies = ["Walaikum Assalam", "ওয়ালাইকুম আসসালাম"];
         const reply = replies[Math.floor(Math.random() * replies.length)];
         return message.reply(reply, (err, info) => {
-          if (!err) global.GoatBot.onReply.set(info.messageID, { commandName: "baby", author: senderID });
+          if (!err) global.GoatBot.onReply.set(info.messageID, { commandName: "আসসালামু আলাইকুম", author: senderID });
         });
       }
 
       // যদি “baby [text]” হয়
-      const prefixes = ["baby", "bot", "বেবি", "বট", "jan"];
+      const prefixes = ["আসসালামু আলাইকুম", " Assalamu Alaikum"];
       const prefix = prefixes.find(p => raw.startsWith(p));
       if (prefix) {
         const query = raw.replace(prefix, "").trim();
@@ -191,14 +191,14 @@ module.exports = {
 
         if (!responses || responses.length === 0) {
           console.log(`🧠 Auto-learned: "${query}"`);
-          await axios.get(`${simsim}/teach?ask=${encodeURIComponent(query)}&ans=${encodeURIComponent("hmm baby 😚 (auto learned)")}&senderName=${encodeURIComponent(senderName)}`);
-          return message.reply("hmm baby 😚");
+          await axios.get(`${simsim}/teach?ask=${encodeURIComponent(query)}&ans=${encodeURIComponent("Walaikum Assalam (auto learned)")}&senderName=${encodeURIComponent(senderName)}`);
+          return message.reply("ওয়ালাইকুম আসসালাম");
         }
 
         for (const reply of responses) {
           await new Promise((resolve) => {
             message.reply(reply, (err, info) => {
-              if (!err) global.GoatBot.onReply.set(info.messageID, { commandName: "baby", author: senderID });
+              if (!err) global.GoatBot.onReply.set(info.messageID, { commandName: "Assalamu Alaikum", author: senderID });
               resolve();
             });
           });
