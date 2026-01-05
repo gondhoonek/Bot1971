@@ -32,15 +32,15 @@ module.exports = {
   },
 
   sendInfo: async function (message) {
-    const botName = "SaGor";
-    const ownerName = "JAHIDUL ISLAM SAGOR";
-    const moderatedBy = "JAHIDUL ISLAM SAGOR";
+    const botName = "AT-ᴛᴀqᴡᴀ ꜰᴏᴜɴᴅᴀᴛɪᴏɴ";
+    const ownerName = "AT-ᴛᴀqᴡᴀ ꜰᴏᴜɴᴅᴀᴛɪᴏɴ";
+    const moderatedBy = "AT-ᴛᴀqᴡᴀ ꜰᴏᴜɴᴅᴀᴛɪᴏɴ";
     const religion = "ISLAM";
-    const botStatus = "SINGLE";
-    const address = "PANCHAGARH , DEBIGONJ";
-    const userClass = "INTER 1ST";
-    const facebook = "https://www.facebook.com/JAHIDUL.ISLAM.404";
-    const tiktok = "https://www.tiktok.com/@11sagor_islam";
+    const botStatus = "ᴀʟʟᴀʜ";
+    const address = "ꜰᴀᴄᴇʙᴏᴏᴋ ᴍɪᴅɪʏᴀ";
+    const userClass = "ɪꜱʟᴀᴍɪᴄ ᴊᴏʙ";
+    const facebook = "https://www.facebook.com/Islamic.Fundation";
+    const tiktok = "https://m.me/j/Abawo-69GGiHYihE/";
 
     const now = moment().tz('Asia/Dhaka');
     const localTime = now.format('hh:mm:ss A');
@@ -55,27 +55,27 @@ module.exports = {
     await new Promise(resolve => setTimeout(resolve, 100));
     const ping = Date.now() - start;
 
-    const photoUrl = "https://i.ibb.co/SwXznvzv/img-1760502291235.jpg";
+    const photoUrl = "https://i.imgur.com/vl1e95d.jpeg";
 
     const body = `
 ╭─ <𝐎𝐖𝐍𝐄𝐑  𝐈𝐍𝐅𝐎> ─╮
 ├──────────────⍟
-│ 👑 𝕆𝕎ℕ𝔼ℝ : ${ownerName}
-│ ⚙️ 𝕄𝕆𝔻𝔼ℝ𝔸𝕋𝔼𝔻 𝔹𝕐 : ${moderatedBy}
-│ 🏫 ℂ𝕃𝔸𝕊𝕊 : ${userClass}
-│ 🏠 𝔸𝔻𝔻ℝ𝔼𝕊𝕊 : ${address}
-│ 🌍 ℝ𝔼𝕃𝕀𝔾𝕀𝕆ℕ : ${religion}
-│ 🧬 𝕊𝕋𝔸𝕋𝕌𝕊 : ${botStatus}
-│ 📘 𝔽𝔸ℂ𝔼𝔹𝕆𝕆𝕂 : ${facebook}
-│ 📸 𝕋𝕀𝕂𝕋𝕆𝕂 : ${tiktok}
+│ 👑 𝙾𝚆𝙽𝙴𝚁 : ${ownerName}
+│ ⚙️ 𝙼𝙾𝙳𝙴𝚁𝙰𝚃𝙴𝙳 𝙱𝚈 : ${moderatedBy}
+│ 🏫 𝚆𝙾𝚁𝙺 : ${userClass}
+│ 🏠 𝙰𝙳𝙳𝚁𝙴𝚂𝚂 : ${address}
+│ 🌍 𝚁𝙴𝙻𝙸𝙶𝙸𝙾𝙽 : ${religion}
+│ 🧬 𝚂𝚃𝙰𝚃𝚄𝚂 : ${botStatus}
+│ 📘 𝙵𝙰𝙲𝙴𝙱𝙾𝙾𝙺 : ${facebook}
+│ 📸 𝚃𝙴𝚇𝚃 𝙱𝙾𝚇 : ${tiktok}
 ├───────────⍟
 │
-│𖣘 <𝐁𝐎𝐓  𝐈𝐍𝐅𝐎> 𖣘
+│𖣘 <🅑︎🅞︎🅣︎ 🅘︎🅝︎🅕︎🅞︎> 𖣘
 ├───────────⍟
-│ 🤖 𝐁𝐨𝐭 𝐍𝐚𝐦𝐞: ${botName}
-│ 🕐 𝐓𝐢𝐦𝐞: ${localTime}
-│ 🌀 𝐔𝐩𝐭𝐢𝐦𝐞: ${uptimeString}
-│ ⚡ 𝐏𝐢𝐧𝐠: ${ping}𝐦𝐬
+│ 🤖 𝙱𝙾𝚃 𝙽𝙰𝙼𝙴: ${botName}
+│ 🕐 𝚃𝙸𝙼𝙴: ${localTime}
+│ 🌀 𝚄𝙿𝚃𝙸𝙼𝙴: ${uptimeString}
+│ ⚡ 𝙿𝙸𝙽𝙷: ${ping}𝐦𝐬
 ╰───────────╯
 `;
 
