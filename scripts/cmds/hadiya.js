@@ -6,10 +6,10 @@ module.exports = {
     countDown: 5,
     role: 0,
     shortDescription: {
-      en: "Auto reply for hadiya numbers"
+      en: "Auto reply for hadiya numbers (exact match)"
     },
     description: {
-      en: "Auto reply on chat when user says payment related keywords"
+      en: "Exact text match auto reply using const keyword list"
     },
     category: "auto 🪐",
     guide: {
@@ -20,33 +20,38 @@ module.exports = {
   onStart: async function () {},
 
   onChat: async function ({ event, message }) {
-    const text = event.body?.toLowerCase();
-    if (!text) return;
+    try {
+      const text = (event.body || "").trim().toLowerCase();
+      if (!text) return;
 
-    // Keywords list
-    const keywords = [
-      "bikash", "বিকাশ",
-      "nagad", "নগদ",
-      "rocket", "রকেট",
-      "নাম্বার দাও",
-      "টাকা পাঠাবো",
-      "হাদিয়া পাঠাবো",
-      "taka pathabo",
-      "hadiya dibo"
-    ];
+      // 👉 শুধু এখানে যে শব্দ/বাক্যগুলো থাকবে — ঠিক সেগুলোর সাথে মিললে reply যাবে
+      const keywords = [
+        "bikash",
+        "বিকাশ",
+        "nagad",
+        "নগদ",
+        "rocket",
+        "রকেট",
+        "নাম্বার দাও",
+        "টাকা পাঠাবো",
+        "হাদিয়া পাঠাবো",
+        "taka pathabo",
+        "hadiya dibo"
+      ];
 
-    // Check if includes any keyword
-    if (keywords.some(k => text.includes(k))) {
-      return message.reply({
-        body: `╭•┄┅═══❁🌺❁═══┅┄•╮
-       📱01615101797📱
+      // Exact match only — mixed text হলে reply যাবে না
+      if (keywords.includes(text)) {
+        return message.reply(
+`╭•┄┅═══❁🌺❁═══┅┄•╮
+  📱 01615101797 📱
 ╰•┄┅═══❁🌺❁═══┅┄•╯
 
-✿🦋༎প্রিয় সদস্য༎✨🧡`,
-        attachment: await global.utils.getStreamFromURL(
-          "https://i.ibb.co/3yQkd1bt/photo.jpg"
-        )
-      });
+✿🦋 প্রিয় সদস্য ✨🧡`
+        );
+      }
+
+    } catch (err) {
+      console.log("Hadiya CMD Error:", err);
     }
   }
-}
+};
