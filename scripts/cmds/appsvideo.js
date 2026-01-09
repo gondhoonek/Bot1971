@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   config: {
-    name: "apps",
+    name: "apps video",
     version: "2.1.1",
     author: "apps video",
     countDown: 5,
