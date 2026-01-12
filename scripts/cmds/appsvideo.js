@@ -5,7 +5,7 @@ const path = require("path");
 module.exports = {
   config: {
     name: "appsvd",
-    version: "2.1.1",
+    version: "2.1.4",
     author: "apps video",
     countDown: 5,
     role: 0,
@@ -19,16 +19,19 @@ module.exports = {
 
   onStart: async function ({ api, event }) {
 
-    // 💔 Random sad captions
     const captions = [
-      "না টেনে পুরো ভিডিও মনোযোগ সহকারে দেখুন"
+      "না টেনে পুরো ভিডিও মনোযোগ সহকারে দেখুন 💔"
     ];
-
     const caption = captions[Math.floor(Math.random() * captions.length)];
 
-    // 🎥 Sad video link (Catbox)
     const link = "https://files.catbox.moe/rsgdcb.mp4";
-    const cachePath = path.join(__dirname, "cache", "sad.mp4");
+    const cacheDir = path.join(__dirname, "cache");
+    const cachePath = path.join(cacheDir, "sad.mp4");
+
+    const loadingMsg = await api.sendMessage(
+      "⏳ ভিডিও লোড হচ্ছে, একটু অপেক্ষা করুন...",
+      event.threadID
+    );
 
     try {
       const response = await axios({
@@ -37,9 +40,8 @@ module.exports = {
         responseType: "stream"
       });
 
-      await fs.ensureDir(path.join(__dirname, "cache"));
+      await fs.ensureDir(cacheDir);
       const writer = fs.createWriteStream(cachePath);
-
       response.data.pipe(writer);
 
       writer.on("finish", async () => {
@@ -50,14 +52,20 @@ module.exports = {
           },
           event.threadID
         );
-        fs.unlinkSync(cachePath);
+
+        setTimeout(() => {
+          api.unsendMessage(loadingMsg.messageID);
+          fs.unlinkSync(cachePath);
+        }, 2000);
       });
 
       writer.on("error", () => {
+        api.unsendMessage(loadingMsg.messageID);
         api.sendMessage("❌ ভিডিও পাঠাতে সমস্যা হয়েছে!", event.threadID);
       });
 
     } catch (error) {
+      api.unsendMessage(loadingMsg.messageID);
       api.sendMessage("❌ ভিডিও আনতে সমস্যা হয়েছে!", event.threadID);
     }
   }
